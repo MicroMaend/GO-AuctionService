@@ -1,0 +1,7 @@
+D:\Skole\4. semester\Projekt\GO-AuctionService\GO-AuctionTests\bin\Debug\net8.0\CoverletSourceRootsMapping_GO-AuctionTests
+D:\Skole\4. semester\Projekt\GO-AuctionService\GO-AuctionTests\obj\Debug\net8.0\GO-AuctionTests.csproj.AssemblyReference.cache
+D:\Skole\4. semester\Projekt\GO-AuctionService\GO-AuctionTests\obj\Debug\net8.0\GO-AuctionTests.GeneratedMSBuildEditorConfig.editorconfig
+D:\Skole\4. semester\Projekt\GO-AuctionService\GO-AuctionTests\obj\Debug\net8.0\GO-AuctionTests.AssemblyInfoInputs.cache
+D:\Skole\4. semester\Projekt\GO-AuctionService\GO-AuctionTests\obj\Debug\net8.0\GO-AuctionTests.AssemblyInfo.cs
+D:\Skole\4. semester\Projekt\GO-AuctionService\GO-AuctionTests\obj\Debug\net8.0\GO-AuctionTests.csproj.CoreCompileInputs.cache
+D:\Skole\4. semester\Projekt\GO-AuctionService\GO-AuctionTests\obj\Debug\net8.0\GO-AuctionTests.sourcelink.json

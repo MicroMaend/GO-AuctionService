@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionService", "AuctionService.csproj", "{BFFC211C-28A2-4D97-8671-962FC0BCF237}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GO-AuctionTests", "..\GO-AuctionTests\GO-AuctionTests.csproj", "{3ECE3FDE-CDDC-4CFA-B48B-2A79DA2814D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFFC211C-28A2-4D97-8671-962FC0BCF237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFFC211C-28A2-4D97-8671-962FC0BCF237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFFC211C-28A2-4D97-8671-962FC0BCF237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFFC211C-28A2-4D97-8671-962FC0BCF237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ECE3FDE-CDDC-4CFA-B48B-2A79DA2814D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ECE3FDE-CDDC-4CFA-B48B-2A79DA2814D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ECE3FDE-CDDC-4CFA-B48B-2A79DA2814D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ECE3FDE-CDDC-4CFA-B48B-2A79DA2814D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE23FBFA-D856-471C-9026-EF65CB84D24C}
+	EndGlobalSection
+EndGlobal

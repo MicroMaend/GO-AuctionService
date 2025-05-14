@@ -1,0 +1,177 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\GO-AuctionTests\\GO-AuctionTests.csproj": {}
+  },
+  "projects": {
+    "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\AuctionService\\AuctionService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\AuctionService\\AuctionService.csproj",
+        "projectName": "AuctionService",
+        "projectPath": "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\AuctionService\\AuctionService.csproj",
+        "packagesPath": "C:\\Users\\noahr\\.nuget\\packages\\",
+        "outputPath": "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\AuctionService\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\NuGet.Config",
+          "C:\\Users\\noahr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\nuget-packages": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/MicroMaend/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.4.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            },
+            "gocore": {
+              "target": "Package",
+              "version": "[1.0.11, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\GO-AuctionTests\\GO-AuctionTests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\GO-AuctionTests\\GO-AuctionTests.csproj",
+        "projectName": "GO-AuctionTests",
+        "projectPath": "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\GO-AuctionTests\\GO-AuctionTests.csproj",
+        "packagesPath": "C:\\Users\\noahr\\.nuget\\packages\\",
+        "outputPath": "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\GO-AuctionTests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\NuGet.Config",
+          "C:\\Users\\noahr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\nuget-packages": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/MicroMaend/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\AuctionService\\AuctionService.csproj": {
+                "projectPath": "D:\\Skole\\4. semester\\Projekt\\GO-AuctionService\\AuctionService\\AuctionService.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "GOCore": {
+              "target": "Package",
+              "version": "[1.0.11, )"
+            },
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
