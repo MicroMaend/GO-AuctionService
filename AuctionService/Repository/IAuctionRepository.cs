@@ -12,5 +12,6 @@ namespace AuctionService.Repositories
         Task<User> UserGetAuctionWinner(Guid auctionId);
         Task<List<Auction>> GetAuctionByStartTime(DateTime start);
         Task<List<Auction>> GetAuctionByEndTime(DateTime end);
+        Task<List<Auction>> GetAuctionStatus(string status);
     }
 }

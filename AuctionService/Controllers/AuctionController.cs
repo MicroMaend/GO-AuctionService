@@ -73,5 +73,17 @@ namespace AuctionService.Controllers
             var auctions = await _repository.GetAuctionByEndTime(end);
             return Ok(auctions);
         }
+
+         [HttpGet("status")]
+    public async Task<IActionResult> GetByStatus([FromQuery] string status)
+    {
+        if (string.IsNullOrWhiteSpace(status))
+        {
+            return BadRequest("Status must be provided.");
+        }
+
+        var auctions = await _repository.GetAuctionStatus(status);
+        return Ok(auctions);
+    }
     }
 }

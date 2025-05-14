@@ -64,5 +64,11 @@ namespace AuctionService.Data
         {
             return await _auctions.Find(a => a.AuctionEnd == end).ToListAsync();
         }
+
+        public async Task<List<Auction>> GetAuctionStatus(string status)
+    {
+        var filter = Builders<Auction>.Filter.Eq(a => a.Status, status);
+        return await _auctions.Find(filter).ToListAsync();
+    }    
     }
 }
