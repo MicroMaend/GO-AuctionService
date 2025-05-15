@@ -9,7 +9,7 @@ namespace AuctionService.Repositories
         Task<bool> EditAuction(Auction auction);
         Task<List<Auction>> GetAllAuctions();
         Task<Auction> GetAuctionById(Guid id);
-        Task<User> UserGetAuctionWinner(Guid auctionId);
+        Task<Guid> UserIdGetAuctionWinner(Guid auctionId);
         Task<List<Auction>> GetAuctionByStartTime(DateTime start);
         Task<List<Auction>> GetAuctionByEndTime(DateTime end);
         Task<List<Auction>> GetAuctionStatus(string status);

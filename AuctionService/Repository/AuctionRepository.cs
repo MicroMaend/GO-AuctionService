@@ -44,15 +44,13 @@ namespace AuctionService.Data
             return await _auctions.Find(a => a.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<User> UserGetAuctionWinner(Guid auctionId)
+        public async Task<Guid> UserIdGetAuctionWinner(Guid auctionId)
         {
             var auction = await _auctions.Find(a => a.Id == auctionId).FirstOrDefaultAsync();
 
-            if (auction == null || auction.Bids == null || !auction.Bids.Any())
-                return null;
-
-            var winningBid = auction.Bids.OrderByDescending(b => b.Amount).FirstOrDefault();
-            return winningBid == null ? null : new User { Id = winningBid.UserId };
+            var winningBidder = auction.HighestBid.UserId;
+            
+            return winningBidder;
         }
 
         public async Task<List<Auction>> GetAuctionByStartTime(DateTime start)

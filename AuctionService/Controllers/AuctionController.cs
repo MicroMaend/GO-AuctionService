@@ -54,10 +54,10 @@ namespace AuctionService.Controllers
         }
 
         [HttpGet("{id}/winner")]
-        public async Task<IActionResult> GetAuctionWinner(Guid id)
+        public async Task<IActionResult> GetAuctionWinner(Guid auctionId)
         {
-            var user = await _repository.UserGetAuctionWinner(id);
-            return user != null ? Ok(user) : NotFound();
+            var user = await _repository.UserIdGetAuctionWinner(auctionId);
+            return Ok(user);
         }
 
         [HttpGet("start")]

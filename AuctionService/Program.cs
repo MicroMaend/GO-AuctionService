@@ -15,6 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IAuctionRepository, AuctionRepository>();
 
+// Register the background worker
+builder.Services.AddHostedService<BiddingWorker>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
