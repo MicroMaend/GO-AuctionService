@@ -3,6 +3,11 @@ using AuctionService.Repositories;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
+using NLog;
+using NLog.Web;
+
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings()
+    .GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +22,9 @@ builder.Services.AddSingleton<IAuctionRepository, AuctionRepository>();
 
 // Register the background worker
 builder.Services.AddHostedService<BiddingWorker>();
+
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 var app = builder.Build();
 
