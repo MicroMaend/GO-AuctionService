@@ -5,7 +5,7 @@ using GOCore;
 namespace AuctionService.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class AuctionController : ControllerBase
     {
         private readonly IAuctionRepository _repository;

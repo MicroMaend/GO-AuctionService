@@ -1,27 +1,28 @@
-# Base image
+# Base image for runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 
+# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy csproj og nuget konfiguration
+# Copy project files and NuGet configuration
 COPY nuget.config ./
-COPY nuget-packages ./nuget-packages
-COPY AuctionService/AuctionService.csproj AuctionService/
+COPY nuget-packages/ ./nuget-packages/
+COPY AuctionService.csproj ./
 
 # Restore using local NuGet source
-RUN dotnet restore "AuctionService/AuctionService.csproj" --configfile ./nuget.config
+RUN dotnet restore "AuctionService.csproj" --configfile ./nuget.config
 
-# Copy the rest of the code
+# Copy the rest of the source code (everything else in the folder)
 COPY . .
 
-# Build og publish
-WORKDIR /src/AuctionService
-RUN dotnet build /src/AuctionService/AuctionService.csproj -c Release -o /app/build
-RUN dotnet publish /src/AuctionService/AuctionService.csproj -c Release -o /app/publish
+# Build and publish the project
+RUN dotnet build AuctionService.csproj -c Release -o /app/build
+RUN dotnet publish AuctionService.csproj -c Release -o /app/publish
 
+# Final stage
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
