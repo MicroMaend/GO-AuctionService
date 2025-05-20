@@ -1,137 +1,89 @@
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using GOCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Microsoft.Extensions.Logging;
+using AuctionService.Controllers;
+using AuctionService.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using GOCore;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
-//namespace GO_AuctionTests
-//{
-//    [TestClass]
-//    public class AuctionServiceTests
-//    {
-//        private AuctionService _auctionService;
+namespace AuctionService.Tests
+{
+    [TestClass]
+    public class AuctionControllerTests
+    {
+        private Mock<IAuctionRepository> _mockRepo;
+        private Mock<ILogger<AuctionController>> _mockLogger;
+        private AuctionController _controller;
 
-//        [TestInitialize]
-//        public void Setup()
-//        {
-//            _auctionService = new AuctionService(); // evt. med mockede dependencies
-//        }
+        [TestInitialize]
+        public void Setup()
+        {
+            _mockRepo = new Mock<IAuctionRepository>();
+            _mockLogger = new Mock<ILogger<AuctionController>>();
+            _controller = new AuctionController(_mockRepo.Object, _mockLogger.Object);
+        }
 
-//        [TestMethod]
-//        public void CreateAuction_ShouldAddAuctionToList()
-//        {
-//            var auction = new Auction
-//            {
-//                Id = Guid.NewGuid(),
-//                Item = new Item { Id = Guid.NewGuid(), Name = "Antik vase" },
-//                IsOnline = true,
-//                AuctionStart = DateTime.Now.AddHours(1),
-//                AuctionEnd = DateTime.Now.AddHours(2),
-//                Status = "Upcoming"
-//            };
+        [TestMethod]
+        public async Task CreateAuction_ReturnsCreatedAtAction()
+        {
+            var auction = new Auction { Id = Guid.NewGuid() };
+            _mockRepo.Setup(r => r.CreateAuction(auction)).Returns(Task.CompletedTask);
 
-//            _auctionService.CreateAuction(auction);
-//            var result = _auctionService.GetAllAuctions();
+            var result = await _controller.CreateAuction(auction);
 
-//            Assert.AreEqual(1, result.Count);
-//            Assert.AreEqual("Antik vase", result.First().Item.Name);
-//        }
+            var createdResult = result as CreatedAtActionResult;
+            Assert.IsNotNull(createdResult);
+            Assert.AreEqual("GetAuctionById", createdResult.ActionName);
+            Assert.AreEqual(auction, createdResult.Value);
+        }
 
-//        [TestMethod]
-//        public void DeleteAuction_ShouldRemoveAuction()
-//        {
-//            var auction = new Auction { Id = Guid.NewGuid() };
-//            _auctionService.CreateAuction(auction);
+        [TestMethod]
+        public async Task DeleteAuction_ReturnsNoContent_WhenSuccessful()
+        {
+            var id = Guid.NewGuid();
+            _mockRepo.Setup(r => r.DeleteAuction(id)).ReturnsAsync(true);
 
-//            _auctionService.DeleteAuction(auction.Id);
-//            var result = _auctionService.GetAllAuctions();
+            var result = await _controller.DeleteAuction(id);
 
-//            Assert.AreEqual(0, result.Count);
-//        }
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+        }
 
-//        [TestMethod]
-//        public void EditAuction_ShouldUpdateAuction()
-//        {
-//            var auction = new Auction
-//            {
-//                Id = Guid.NewGuid(),
-//                Status = "Upcoming"
-//            };
+        [TestMethod]
+        public async Task EditAuction_ReturnsBadRequest_OnIdMismatch()
+        {
+            var routeId = Guid.NewGuid();
+            var auction = new Auction { Id = Guid.NewGuid() };
 
-//            _auctionService.CreateAuction(auction);
+            var result = await _controller.EditAuction(routeId, auction);
 
-//            auction.Status = "Cancelled";
-//            _auctionService.EditAuction(auction);
+            var badRequest = result as BadRequestObjectResult;
+            Assert.IsNotNull(badRequest);
+            Assert.AreEqual("Auction ID mismatch", badRequest.Value);
+        }
 
-//            var updated = _auctionService.GetAuctionById(auction.Id);
-//            Assert.AreEqual("Cancelled", updated.Status);
-//        }
+        [TestMethod]
+        public async Task GetAuctionById_ReturnsNotFound_WhenNull()
+        {
+            var id = Guid.NewGuid();
+            _mockRepo.Setup(r => r.GetAuctionById(id)).ReturnsAsync((Auction)null);
 
-//        [TestMethod]
-//        public void GetAllAuctions_ShouldReturnAllAuctions()
-//        {
-//            _auctionService.CreateAuction(new Auction { Id = Guid.NewGuid() });
-//            _auctionService.CreateAuction(new Auction { Id = Guid.NewGuid() });
+            var result = await _controller.GetAuctionById(id);
 
-//            var all = _auctionService.GetAllAuctions();
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
 
-//            Assert.AreEqual(2, all.Count);
-//        }
+        [TestMethod]
+        public async Task GetByStatus_ReturnsBadRequest_WhenStatusMissing()
+        {
+            var result = await _controller.GetByStatus(" ");
 
-//        [TestMethod]
-//        public void GetAuctionById_ShouldReturnCorrectAuction()
-//        {
-//            var auction = new Auction { Id = Guid.NewGuid() };
-//            _auctionService.CreateAuction(auction);
+            var badRequest = result as BadRequestObjectResult;
+            Assert.IsNotNull(badRequest);
+            Assert.AreEqual("Status must be provided.", badRequest.Value);
+        }
 
-//            var result = _auctionService.GetAuctionById(auction.Id);
-
-//            Assert.AreEqual(auction.Id, result.Id);
-//        }
-
-//        [TestMethod]
-//        public void UserGetAuctionWinner_ShouldReturnHighestBidder()
-//        {
-//            var auction = new Auction
-//            {
-//                Id = Guid.NewGuid(),
-//                Bids = new List<Bidding>
-//                {
-//                    new Bidding { Amount = 100, UserId = Guid.NewGuid() },
-//                    new Bidding { Amount = 200, UserId = Guid.NewGuid() },
-//                    new Bidding { Amount = 150, UserId = Guid.NewGuid() }
-//                }
-//            };
-
-//            _auctionService.CreateAuction(auction);
-
-//            var winnerId = _auctionService.UserGetAuctionWinner(auction.Id);
-
-//            Assert.AreEqual(200, auction.Bids.First(b => b.CustomerId == winnerId).Amount);
-//        }
-
-//        [TestMethod]
-//        public void GetAuctionByStartTime_ShouldReturnAuctionsStartingAtSpecificTime()
-//        {
-//            var startTime = new DateTime(2025, 5, 13, 10, 0, 0);
-//            _auctionService.CreateAuction(new Auction { Id = Guid.NewGuid(), AuctionStart = startTime });
-
-//            var result = _auctionService.GetAuctionByStartTime(startTime);
-
-//            Assert.AreEqual(1, result.Count);
-//            Assert.AreEqual(startTime, result[0].AuctionStart);
-//        }
-
-//        [TestMethod]
-//        public void GetAuctionByEndTime_ShouldReturnAuctionsEndingAtSpecificTime()
-//        {
-//            var endTime = new DateTime(2025, 5, 13, 12, 0, 0);
-//            _auctionService.CreateAuction(new Auction { Id = Guid.NewGuid(), AuctionEnd = endTime });
-
-//            var result = _auctionService.GetAuctionByEndTime(endTime);
-
-//            Assert.AreEqual(1, result.Count);
-//            Assert.AreEqual(endTime, result[0].AuctionEnd);
-//        }
-//    }
-//}
+    }
+}
