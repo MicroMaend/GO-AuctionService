@@ -1,31 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/GO-AuctionTests/GO-AuctionTests.csproj": {}
+    "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\GO-AuctionTests\\GO-AuctionTests.csproj": {}
   },
   "projects": {
-    "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/AuctionService.csproj": {
+    "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\AuctionService\\AuctionService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/AuctionService.csproj",
+        "projectUniqueName": "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\AuctionService\\AuctionService.csproj",
         "projectName": "AuctionService",
-        "projectPath": "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/AuctionService.csproj",
-        "packagesPath": "/Users/kristianjuelsgaard/.nuget/packages/",
-        "outputPath": "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/obj/",
+        "projectPath": "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\AuctionService\\AuctionService.csproj",
+        "packagesPath": "C:\\Users\\Gabriel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\AuctionService\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/NuGet.Config",
-          "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/NuGet.Config",
-          "/Users/kristianjuelsgaard/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\NuGet.Config",
+          "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/nuget-packages": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\nuget-packages": {},
           "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.pkg.github.com/MicroMaend/index.json": {},
-          "https://nuget.pkg.github.com/RiverOnlineGroup/index.json": {}
+          "https://nuget.pkg.github.com/MicroMaend/index.json": {}
         },
         "frameworks": {
           "net8.0": {
@@ -43,12 +47,16 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "GOCore": {
+              "target": "Package",
+              "version": "[1.1.3, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[3.4.0, )"
@@ -72,10 +80,6 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
-            },
-            "gocore": {
-              "target": "Package",
-              "version": "[1.1.3, )"
             }
           },
           "imports": [
@@ -89,20 +93,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.13, 8.0.13]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.osx-arm64",
-              "version": "[8.0.13, 8.0.13]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.13, 8.0.13]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -111,39 +101,43 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/kristianjuelsgaard/.dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/GO-AuctionTests/GO-AuctionTests.csproj": {
+    "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\GO-AuctionTests\\GO-AuctionTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/GO-AuctionTests/GO-AuctionTests.csproj",
+        "projectUniqueName": "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\GO-AuctionTests\\GO-AuctionTests.csproj",
         "projectName": "GO-AuctionTests",
-        "projectPath": "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/GO-AuctionTests/GO-AuctionTests.csproj",
-        "packagesPath": "/Users/kristianjuelsgaard/.nuget/packages/",
-        "outputPath": "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/GO-AuctionTests/obj/",
+        "projectPath": "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\GO-AuctionTests\\GO-AuctionTests.csproj",
+        "packagesPath": "C:\\Users\\Gabriel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\GO-AuctionTests\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/NuGet.Config",
-          "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/NuGet.Config",
-          "/Users/kristianjuelsgaard/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\NuGet.Config",
+          "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/nuget-packages": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\nuget-packages": {},
           "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.pkg.github.com/MicroMaend/index.json": {},
-          "https://nuget.pkg.github.com/RiverOnlineGroup/index.json": {}
+          "https://nuget.pkg.github.com/MicroMaend/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/AuctionService.csproj": {
-                "projectPath": "/Users/kristianjuelsgaard/Desktop/4. Semester/GrønOgOlsen/GO-AuctionService/AuctionService/AuctionService.csproj"
+              "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\AuctionService\\AuctionService.csproj": {
+                "projectPath": "C:\\Users\\Gabriel\\OneDrive\\Skrivebord\\4semEksamen\\GO-AuctionProject\\GO-AuctionService\\AuctionService\\AuctionService.csproj"
               }
             }
           }
@@ -158,7 +152,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -205,7 +199,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/kristianjuelsgaard/.dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
