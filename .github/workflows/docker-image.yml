@@ -51,11 +51,19 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build the Docker image
-        run: |
-          docker build . -f AuctionService/Dockerfile \
-          -t ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_VERSION} \
-          -t ${DOCKER_USER}/${IMAGE_NAME}:latest
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: AuctionService/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+            ${{ env.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Push Docker image to Docker Hub
         run: |
