@@ -26,6 +26,16 @@ builder.Services.AddHostedService<BiddingWorker>();
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
@@ -37,9 +47,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseCors();
 
-app.UseCors("AllowAll");
+app.UseAuthorization();
 
 app.MapControllers();
 await Task.Delay(5000);
