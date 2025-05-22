@@ -39,6 +39,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseCors("AllowAll");
+
 app.MapControllers();
 await Task.Delay(5000);
 app.Run();
