@@ -1,6 +1,8 @@
 ﻿using MongoDB.Driver;
 using AuctionService.Repositories;
 using GOCore;
+// Fjern denne using, da IConfiguration ikke længere injiceres direkte her
+// using Microsoft.Extensions.Configuration;
 
 namespace AuctionService.Data
 {
@@ -8,13 +10,13 @@ namespace AuctionService.Data
     {
         private readonly IMongoCollection<Auction> _auctions;
 
-        public AuctionRepository(IConfiguration configuration)
+        // Konstruktoren tager nu connection string direkte
+        public AuctionRepository(string connectionString)
         {
-            var connectionString = configuration.GetConnectionString("MongoDb");
             var client = new MongoClient(connectionString);
-            var database = client.GetDatabase("GO-AuctionServiceDB");
+            var database = client.GetDatabase("GO-AuctionServiceDB"); // Sørg for at dette er det korrekte database navn
 
-            _auctions = database.GetCollection<Auction>("Auctions");
+            _auctions = database.GetCollection<Auction>("Auctions"); // Sørg for at dette er det korrekte kollektions navn
         }
 
         public async Task CreateAuction(Auction auction)
@@ -49,7 +51,7 @@ namespace AuctionService.Data
             var auction = await _auctions.Find(a => a.Id == auctionId).FirstOrDefaultAsync();
 
             var winningBidder = auction.HighestBid.UserId;
-            
+
             return winningBidder;
         }
 
@@ -64,9 +66,9 @@ namespace AuctionService.Data
         }
 
         public async Task<List<Auction>> GetAuctionStatus(string status)
-    {
-        var filter = Builders<Auction>.Filter.Eq(a => a.Status, status);
-        return await _auctions.Find(filter).ToListAsync();
-    }    
+        {
+            var filter = Builders<Auction>.Filter.Eq(a => a.Status, status);
+            return await _auctions.Find(filter).ToListAsync();
+        }
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GO-AuctionTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff8e4dc74b022369d0ffa4a354a1aad13de0a09e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+13a51e47033b3cb06e6c1ebf585600a2569ca883")]
 [assembly: System.Reflection.AssemblyProductAttribute("GO-AuctionTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GO-AuctionTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
