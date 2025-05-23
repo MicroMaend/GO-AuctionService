@@ -5,14 +5,14 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
 using NLog;
 using NLog.Web;
-using VaultSharp; // Tilføjet
-using VaultSharp.V1.AuthMethods.Token; // Tilføjet
-using System.Text; // Tilføjet
-using MongoDB.Driver; // Tilføjet
-using Microsoft.AspNetCore.Authentication.JwtBearer; // Tilføjet
-using Microsoft.IdentityModel.Tokens; // Tilføjet
-using Microsoft.OpenApi.Models; // Tilføjet
-using Microsoft.Extensions.Configuration; // Tilføjet
+using VaultSharp; // Tilfï¿½jet
+using VaultSharp.V1.AuthMethods.Token; // Tilfï¿½jet
+using System.Text; // Tilfï¿½jet
+using MongoDB.Driver; // Tilfï¿½jet
+using Microsoft.AspNetCore.Authentication.JwtBearer; // Tilfï¿½jet
+using Microsoft.IdentityModel.Tokens; // Tilfï¿½jet
+using Microsoft.OpenApi.Models; // Tilfï¿½jet
+using Microsoft.Extensions.Configuration; // Tilfï¿½jet
 
 Console.WriteLine("AuctionService starter...");
 
@@ -35,7 +35,7 @@ async Task<Dictionary<string, string>> LoadVaultSecretsAsync()
             var vaultAddress = Environment.GetEnvironmentVariable("VAULT_ADDR") ?? "http://vault:8200";
             var vaultToken = Environment.GetEnvironmentVariable("VAULT_TOKEN") ?? "wopwopwop123";
 
-            Console.WriteLine($"Henter secrets fra Vault på {vaultAddress} med token...");
+            Console.WriteLine($"Henter secrets fra Vault pï¿½ {vaultAddress} med token...");
 
             var vaultClientSettings = new VaultClientSettings(vaultAddress, new TokenAuthMethodInfo(vaultToken));
             var vaultClient = new VaultClient(vaultClientSettings);
@@ -57,16 +57,16 @@ async Task<Dictionary<string, string>> LoadVaultSecretsAsync()
             retryCount++;
             if (retryCount > 5)
             {
-                Console.WriteLine($"Fejl ved indlæsning af Vault secrets efter 5 forsøg: {ex.Message}");
+                Console.WriteLine($"Fejl ved indlï¿½sning af Vault secrets efter 5 forsï¿½g: {ex.Message}");
                 throw;
             }
-            Console.WriteLine($"Vault ikke klar endnu, prøver igen om 3 sek... ({retryCount}/5): {ex.Message}");
+            Console.WriteLine($"Vault ikke klar endnu, prï¿½ver igen om 3 sek... ({retryCount}/5): {ex.Message}");
             await Task.Delay(3000);
         }
     }
 }
 
-// Indlæs secrets fra Vault
+// Indlï¿½s secrets fra Vault
 var vaultSecrets = await LoadVaultSecretsAsync();
 builder.Configuration.AddInMemoryCollection(vaultSecrets);
 
@@ -86,6 +86,7 @@ Console.WriteLine($"Jwt__Audience fra Vault i AuctionService: '{audience}'");
 
 // Add services to the container
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -111,11 +112,11 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Registrer AuctionRepository som singleton service ved hjælp af en factory
+// Registrer AuctionRepository som singleton service ved hjï¿½lp af en factory
 builder.Services.AddSingleton<IAuctionRepository>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
-    var connectionString = configuration["Mongo__AuctionConnectionString"]; // Brug samme nøgle som ovenfor
+    var connectionString = configuration["Mongo__AuctionConnectionString"]; // Brug samme nï¿½gle som ovenfor
 
     if (string.IsNullOrWhiteSpace(connectionString))
     {
@@ -141,7 +142,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Tilføj autentificering
+// Tilfï¿½j autentificering
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -161,7 +162,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Tilføj autorisering
+// Tilfï¿½j autorisering
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
@@ -182,9 +183,9 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
-app.UseAuthentication(); // Tilføjet
+app.UseAuthentication(); // Tilfï¿½jet
 app.UseAuthorization();
 
 app.MapControllers();
-// await Task.Delay(5000); // Fjernet, da det normalt ikke er nødvendigt
+// await Task.Delay(5000); // Fjernet, da det normalt ikke er nï¿½dvendigt
 app.Run();
