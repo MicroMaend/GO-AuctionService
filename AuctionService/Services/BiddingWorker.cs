@@ -52,9 +52,9 @@ public class BiddingWorker : BackgroundService
                     return;
                 }
 
-                if (auction != null && auction.HighestBid.Amount < bidding.Amount)
+                if (auction != null)
                 {
-                    auction.HighestBid = bidding;
+                    auction.HighestBidId = bidding.Id;
                     await _repository.EditAuction(auction);
                 }
             }

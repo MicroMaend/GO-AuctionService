@@ -16,6 +16,8 @@ namespace AuctionService.Tests
     {
         private Mock<IAuctionRepository> _mockRepo;
         private Mock<ILogger<AuctionController>> _mockLogger;
+        private IHttpClientFactory _httpClientFactory;
+
         private AuctionController _controller;
 
         [TestInitialize]
@@ -23,7 +25,7 @@ namespace AuctionService.Tests
         {
             _mockRepo = new Mock<IAuctionRepository>();
             _mockLogger = new Mock<ILogger<AuctionController>>();
-            _controller = new AuctionController(_mockRepo.Object, _mockLogger.Object);
+            _controller = new AuctionController(_mockRepo.Object, _mockLogger.Object, _httpClientFactory);
         }
 
         [TestMethod]

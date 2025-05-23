@@ -1,3 +1,5 @@
+using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using AuctionService.Repositories;
 using GOCore;
@@ -8,16 +10,18 @@ namespace AuctionService.Controllers
 {
     [ApiController]
     [Route("auction")]
-    [Authorize] // Kræver autentificering for alle endpoints i denne controller som standard
+    [Authorize] // Krï¿½ver autentificering for alle endpoints i denne controller som standard
     public class AuctionController : ControllerBase
     {
         private readonly IAuctionRepository _repository;
         private readonly ILogger<AuctionController> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public AuctionController(IAuctionRepository repository, ILogger<AuctionController> logger)
+        public AuctionController(IAuctionRepository repository, ILogger<AuctionController> logger, IHttpClientFactory httpClientFactory)
         {
             _repository = repository;
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
         [HttpPost]
@@ -100,6 +104,58 @@ namespace AuctionService.Controllers
             _logger.LogInformation("Retrieved {Count} auctions", auctions?.Count() ?? 0);
             return Ok(auctions);
         }
+        
+        [HttpGet("overview")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAuctionOverview()
+        {
+            _logger.LogInformation("Received request to get auction overview");
+
+            var auctions = await _repository.GetAllAuctions();
+            if (auctions == null || !auctions.Any())
+            {
+                _logger.LogWarning("No auctions found for overview");
+                return Ok(new List<allAuctionsViewModel>());
+            }
+
+            var httpClient = _httpClientFactory.CreateClient();
+
+            var overviewTasks = auctions.Select(async auction =>
+            {
+                Item item = null;
+                Bidding bidding = null;
+
+                try
+                {
+                    item = await httpClient.GetFromJsonAsync<Item>($"https://go-catalogservice/catalog/items/{auction.Id}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to fetch item for auction ID: {AuctionId}", auction.Id);
+                }
+
+                try
+                {
+                    bidding = await httpClient.GetFromJsonAsync<Bidding>($"https://go-biddingservice/bidding/bid/highest/{auction.Id}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to fetch bid for auction ID: {AuctionId}", auction.Id);
+                }
+
+                return new allAuctionsViewModel
+                {
+                    Auction = auction,
+                    Item = item,
+                    CurrentHighestBid = bidding?.Amount ?? 0
+                };
+            });
+
+            var overview = await Task.WhenAll(overviewTasks);
+
+            _logger.LogInformation("Successfully compiled overview for {Count} auctions", overview.Length);
+            return Ok(overview);
+        }
 
         [HttpGet("{id}")]
         [AllowAnonymous] 
@@ -126,7 +182,7 @@ namespace AuctionService.Controllers
         }
 
         [HttpGet("{auctionId}/winner")]
-        [AllowAnonymous] // Tillader uautoriserede forespørgsler for at se vinderen
+        [AllowAnonymous]
         public async Task<IActionResult> GetAuctionWinner(Guid auctionId)
         {
             _logger.LogInformation("Received request to get winner for auction ID: {AuctionId}", auctionId);
@@ -137,9 +193,38 @@ namespace AuctionService.Controllers
                 return BadRequest("Auction ID cannot be empty");
             }
 
-            var user = await _repository.UserIdGetAuctionWinner(auctionId);
+            using var httpClient = new HttpClient();
+
+            // Fetch highest bid
+            var bidResponse = await httpClient.GetAsync($"https://go-biddingservice/bidding/bid/highest/{auctionId}");
+            if (!bidResponse.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("Failed to retrieve bid for auction ID: {AuctionId}", auctionId);
+                return StatusCode((int)bidResponse.StatusCode, "Failed to retrieve bid.");
+            }
+
+            var bidContent = await bidResponse.Content.ReadAsStringAsync();
+            var bidding = JsonSerializer.Deserialize<Bidding>(bidContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (bidding == null || bidding.UserId == Guid.Empty)
+            {
+                _logger.LogWarning("No valid bid found for auction ID: {AuctionId}", auctionId);
+                return NotFound("No valid bid found.");
+            }
+
+            // Fetch user data
+            var userResponse = await httpClient.GetAsync($"https://go-userservice/user/{bidding.UserId}");
+            if (!userResponse.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("Failed to retrieve user info for user ID: {UserId}", bidding.UserId);
+                return StatusCode((int)userResponse.StatusCode, "Failed to retrieve user info.");
+            }
+
+            var userContent = await userResponse.Content.ReadAsStringAsync();
+            var user = JsonSerializer.Deserialize<User>(userContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
             _logger.LogInformation("Winner for auction ID: {AuctionId} retrieved successfully", auctionId);
-            return Ok(user);
+            return Ok(new { Winner = user, WinningBid = bidding });
         }
 
         [HttpGet("start")]

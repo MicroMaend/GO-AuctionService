@@ -37,12 +37,6 @@ namespace AuctionService.Services
             return _auctions.FirstOrDefault(a => a.Id == auctionId);
         }
 
-        public Guid UserIdGetAuctionWinner(Guid auctionId)
-        {
-            var auction = _auctions.FirstOrDefault(a => a.Id == auctionId);
-            return auction?.HighestBid.UserId ?? Guid.Empty;
-        }
-
         public List<Auction> GetAuctionByStartTime(DateTime startTime)
         {
             return _auctions.Where(a => a.AuctionStart == startTime).ToList();

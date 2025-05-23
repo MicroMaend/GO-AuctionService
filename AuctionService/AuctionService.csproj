@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GOCore" Version="1.1.3" />
+    <PackageReference Include="GOCore" Version="1.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
     <PackageReference Include="MongoDB.Driver" Version="3.4.0" />
     <PackageReference Include="NLog" Version="6.0.0-preview1" />

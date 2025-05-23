@@ -46,15 +46,6 @@ namespace AuctionService.Data
             return await _auctions.Find(a => a.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Guid> UserIdGetAuctionWinner(Guid auctionId)
-        {
-            var auction = await _auctions.Find(a => a.Id == auctionId).FirstOrDefaultAsync();
-
-            var winningBidder = auction.HighestBid.UserId;
-
-            return winningBidder;
-        }
-
         public async Task<List<Auction>> GetAuctionByStartTime(DateTime start)
         {
             return await _auctions.Find(a => a.AuctionStart == start).ToListAsync();
