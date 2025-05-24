@@ -12,5 +12,7 @@ namespace AuctionService.Repositories
         Task<List<Auction>> GetAuctionByStartTime(DateTime start);
         Task<List<Auction>> GetAuctionByEndTime(DateTime end);
         Task<List<Auction>> GetAuctionStatus(string status);
+        Task<AuctionHouse> GetAuctionHouseById(Guid id);
+        Task<List<AuctionHouse>> GetAllAuctionHouses();
     }
 }

@@ -5,6 +5,7 @@ using AuctionService.Repositories;
 using GOCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using AuctionService.Data;
 
 namespace AuctionService.Controllers
 {
@@ -259,5 +260,28 @@ namespace AuctionService.Controllers
             var auctions = await _repository.GetAuctionStatus(status);
             return Ok(auctions);
         }
+
+        [HttpGet("auctionhouse/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAuctionHouseById(Guid id)
+        {
+            var auctionHouse = await _repository.GetAuctionHouseById(id);
+
+            if (auctionHouse == null)
+                return NotFound($"AuctionHouse with ID {id} not found.");
+
+            return Ok(auctionHouse);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllAuctionHouses()
+        {
+            _logger.LogInformation("Received request to get all auctions");
+            var auctionshouses = await _repository.GetAllAuctionHouses();
+            _logger.LogInformation("Retrieved {Count} auctionhouses", auctionshouses?.Count() ?? 0);
+            return Ok(auctionshouses);
+        }
+
     }
 }

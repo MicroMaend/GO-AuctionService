@@ -9,6 +9,7 @@ namespace AuctionService.Data
     public class AuctionRepository : IAuctionRepository
     {
         private readonly IMongoCollection<Auction> _auctions;
+        private readonly IMongoCollection<AuctionHouse> _auctionHouse;
 
         // Konstruktoren tager nu connection string direkte
         public AuctionRepository(string connectionString)
@@ -17,6 +18,7 @@ namespace AuctionService.Data
             var database = client.GetDatabase("GO-AuctionServiceDB"); // Sørg for at dette er det korrekte database navn
 
             _auctions = database.GetCollection<Auction>("Auctions"); // Sørg for at dette er det korrekte kollektions navn
+            _auctionHouse = database.GetCollection<AuctionHouse>("Auctionhouses");
         }
 
         public async Task CreateAuction(Auction auction)
@@ -60,6 +62,14 @@ namespace AuctionService.Data
         {
             var filter = Builders<Auction>.Filter.Eq(a => a.Status, status);
             return await _auctions.Find(filter).ToListAsync();
+        }
+        public async Task<AuctionHouse> GetAuctionHouseById(Guid id)
+        {
+            return await _auctionHouse.Find(h => h.Id == id).FirstOrDefaultAsync();
+        }
+        public async Task<List<AuctionHouse>> GetAllAuctionHouses()
+        {
+            return await _auctionHouse.Find(_ => true).ToListAsync();
         }
     }
 }
