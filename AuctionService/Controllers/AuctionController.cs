@@ -273,14 +273,14 @@ namespace AuctionService.Controllers
             return Ok(auctionHouse);
         }
 
-        [HttpGet]
+        [HttpGet("auctionhouses")]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllAuctionHouses()
         {
-            _logger.LogInformation("Received request to get all auctions");
-            var auctionshouses = await _repository.GetAllAuctionHouses();
-            _logger.LogInformation("Retrieved {Count} auctionhouses", auctionshouses?.Count() ?? 0);
-            return Ok(auctionshouses);
+            _logger.LogInformation("Received request to get all auction houses");
+            var auctionhouses = await _repository.GetAllAuctionHouses();
+            _logger.LogInformation("Retrieved {Count} auction houses", auctionhouses?.Count() ?? 0);
+            return Ok(auctionhouses);
         }
 
     }
