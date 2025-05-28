@@ -83,7 +83,7 @@ Console.WriteLine($"Jwt__Secret fra Vault i AuctionService: '{secretKey}' (Lengt
 Console.WriteLine($"Jwt__Issuer fra Vault i AuctionService: '{issuer}'");
 Console.WriteLine($"Jwt__Audience fra Vault i AuctionService: '{audience}'");
 
-
+builder.Services.AddHealthChecks();
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
