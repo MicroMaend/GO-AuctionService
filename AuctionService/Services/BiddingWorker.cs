@@ -24,8 +24,8 @@ public class BiddingWorker : BackgroundService
         var hostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "rabbitmq";
         var port = int.Parse(Environment.GetEnvironmentVariable("RABBITMQ_PORT") ?? "5672");
         var userName = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME") ??
-                      Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "admin";
-        var password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD") ?? "admin";
+                      Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_USER") ?? "admin";
+        var password = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_PASS") ?? "admin";
 
         _logger.LogInformation($"RabbitMQ konfiguration: Host={hostName}, Port={port}, User={userName}");
 
@@ -51,9 +51,9 @@ public class BiddingWorker : BackgroundService
         {
             try
             {
-                _logger.LogInformation($"Forsøger at forbinde til RabbitMQ (forsøg {attempt}/{maxRetries})...");
+                _logger.LogInformation($"Forsï¿½ger at forbinde til RabbitMQ (forsï¿½g {attempt}/{maxRetries})...");
 
-                // Test forbindelse først
+                // Test forbindelse fï¿½rst
                 await TestRabbitMQConnection();
 
                 var connection = await _factory.CreateConnectionAsync();
@@ -108,7 +108,7 @@ public class BiddingWorker : BackgroundService
                     consumer: consumer
                 );
 
-                _logger.LogInformation("BiddingWorker kører og lytter efter beskeder...");
+                _logger.LogInformation("BiddingWorker kï¿½rer og lytter efter beskeder...");
 
                 // Keep the task alive while the worker is running
                 while (!stoppingToken.IsCancellationRequested)
@@ -123,18 +123,18 @@ public class BiddingWorker : BackgroundService
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Fejl ved forbindelse til RabbitMQ (forsøg {attempt}/{maxRetries}): {ex.Message}");
+                _logger.LogError(ex, $"Fejl ved forbindelse til RabbitMQ (forsï¿½g {attempt}/{maxRetries}): {ex.Message}");
 
                 if (attempt == maxRetries)
                 {
-                    _logger.LogCritical("Kunne ikke forbinde til RabbitMQ efter {MaxRetries} forsøg. Worker stopper.", maxRetries);
+                    _logger.LogCritical("Kunne ikke forbinde til RabbitMQ efter {MaxRetries} forsï¿½g. Worker stopper.", maxRetries);
                     throw;
                 }
 
-                _logger.LogInformation($"Venter {retryDelay.TotalSeconds} sekunder før næste forsøg...");
+                _logger.LogInformation($"Venter {retryDelay.TotalSeconds} sekunder fï¿½r nï¿½ste forsï¿½g...");
                 await Task.Delay(retryDelay, stoppingToken);
 
-                // Øg delay for hvert forsøg (exponential backoff)
+                // ï¿½g delay for hvert forsï¿½g (exponential backoff)
                 retryDelay = TimeSpan.FromSeconds(Math.Min(retryDelay.TotalSeconds * 1.5, 60));
             }
         }
