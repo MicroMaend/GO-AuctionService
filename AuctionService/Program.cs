@@ -188,4 +188,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 // await Task.Delay(5000); // Fjernet, da det normalt ikke er n�dvendigt
+app.MapHealthChecks("/health");
 app.Run();
