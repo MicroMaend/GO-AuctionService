@@ -19,6 +19,8 @@ public class BiddingWorker : BackgroundService
         {
             HostName = "rabbitmq",
             Port = 5672,
+            UserName = "admin",
+            Password = "admin"
         };
     }
 
