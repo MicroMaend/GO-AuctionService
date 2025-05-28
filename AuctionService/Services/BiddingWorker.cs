@@ -44,114 +44,57 @@ public class BiddingWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var maxRetries = 10;
-        var retryDelay = TimeSpan.FromSeconds(5);
+        var connection = await _factory.CreateConnectionAsync();
+        var channel = await connection.CreateChannelAsync();
 
-        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        await channel.QueueDeclareAsync(
+            queue: "bidding",
+            durable: false,
+            exclusive: false,
+            autoDelete: false,
+            arguments: null
+        );
+
+        var consumer = new AsyncEventingBasicConsumer(channel);
+        consumer.ReceivedAsync += async (sender, ea) =>
         {
-            try
+            var body = ea.Body.ToArray();
+            var message = Encoding.UTF8.GetString(body);
+            var bidding = JsonSerializer.Deserialize<Bidding>(message);
+
+            if (bidding != null)
             {
-                _logger.LogInformation($"Fors�ger at forbinde til RabbitMQ (fors�g {attempt}/{maxRetries})...");
-
-                // Test forbindelse f�rst
-                await TestRabbitMQConnection();
-
-                var connection = await _factory.CreateConnectionAsync();
-                var channel = await connection.CreateChannelAsync();
-
-                _logger.LogInformation("Forbundet til RabbitMQ succesfuldt!");
-
-                await channel.QueueDeclareAsync(
-                    queue: "bidding",
-                    durable: false,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null
-                );
-
-                var consumer = new AsyncEventingBasicConsumer(channel);
-                consumer.ReceivedAsync += async (sender, ea) =>
+                var auction = await _repository.GetAuctionById(bidding.AuctionId);
+                
+                if(auction.AuctionEnd < DateTime.UtcNow)
                 {
-                    try
-                    {
-                        var body = ea.Body.ToArray();
-                        var message = Encoding.UTF8.GetString(body);
-                        var bidding = JsonSerializer.Deserialize<Bidding>(message);
-
-                        if (bidding != null)
-                        {
-                            var auction = await _repository.GetAuctionById(bidding.AuctionId);
-
-                            if (auction.AuctionEnd < DateTime.UtcNow)
-                            {
-                                _logger.LogInformation($"Auction ID: {bidding.AuctionId} has ended.");
-                                return;
-                            }
-
-                            if (auction != null)
-                            {
-                                auction.HighestBidId = bidding.Id;
-                                await _repository.EditAuction(auction);
-                                _logger.LogInformation($"Updated auction {auction.Id} with new highest bid {bidding.Id}");
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Fejl ved behandling af bidding besked");
-                    }
-                };
-
-                await channel.BasicConsumeAsync(
-                    queue: "bidding",
-                    autoAck: true,
-                    consumer: consumer
-                );
-
-                _logger.LogInformation("BiddingWorker k�rer og lytter efter beskeder...");
-
-                // Keep the task alive while the worker is running
-                while (!stoppingToken.IsCancellationRequested)
-                {
-                    await Task.Delay(1000, stoppingToken);
+                    Console.WriteLine($"Auction ID: {bidding.AuctionId} has ended.");
+                    return;
                 }
 
-                await channel.CloseAsync();
-                await connection.CloseAsync();
-
-                return; // Success - exit the retry loop
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Fejl ved forbindelse til RabbitMQ (fors�g {attempt}/{maxRetries}): {ex.Message}");
-
-                if (attempt == maxRetries)
+                if (auction != null)
                 {
-                    _logger.LogCritical("Kunne ikke forbinde til RabbitMQ efter {MaxRetries} fors�g. Worker stopper.", maxRetries);
-                    throw;
+                    auction.HighestBidId = bidding.Id;
+                    await _repository.EditAuction(auction);
                 }
-
-                _logger.LogInformation($"Venter {retryDelay.TotalSeconds} sekunder f�r n�ste fors�g...");
-                await Task.Delay(retryDelay, stoppingToken);
-
-                // �g delay for hvert fors�g (exponential backoff)
-                retryDelay = TimeSpan.FromSeconds(Math.Min(retryDelay.TotalSeconds * 1.5, 60));
             }
-        }
-    }
 
-    private async Task TestRabbitMQConnection()
-    {
-        try
+            await Task.CompletedTask;
+        };
+
+        await channel.BasicConsumeAsync(
+            queue: "bidding",
+            autoAck: true,
+            consumer: consumer
+        );
+
+        // Keep the task alive while the worker is running
+        while (!stoppingToken.IsCancellationRequested)
         {
-            using var testConnection = await _factory.CreateConnectionAsync();
-            await testConnection.CloseAsync();
-            _logger.LogInformation("RabbitMQ forbindelsestest OK");
+            await Task.Delay(1000, stoppingToken);
         }
-        catch (Exception ex)
-        {
-            _logger.LogWarning($"RabbitMQ forbindelsestest fejlede: {ex.Message}");
-            throw;
-        }
+
+        await channel.CloseAsync();
+        await connection.CloseAsync();
     }
 }
