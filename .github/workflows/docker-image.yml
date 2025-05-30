@@ -56,9 +56,9 @@ jobs:
         run: |
           docker build . -f AuctionService/Dockerfile \
           -t ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_VERSION} \
-          -t ${DOCKER_USER}/${IMAGE_NAME}:latest
+          -t ${DOCKER_USER}/${IMAGE_NAME}:compose
 
       - name: Push Docker image to Docker Hub
         run: |
           docker push ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_VERSION}
-          docker push ${DOCKER_USER}/${IMAGE_NAME}:latest
+          docker push ${DOCKER_USER}/${IMAGE_NAME}:compose
